@@ -3,6 +3,8 @@
 #include <opencv2/imgproc.hpp>
 #include <vector>
 
+// convinient wrapper around cv::Mat that also provides a way of
+// accessing its parent rect, which this image was obtained from
 class Image {
 public:
     Image();
@@ -17,7 +19,7 @@ public:
     static Image fromBitmap(bool is_colored);
 
     // save pixels to bitmap
-    void saveToBitmap(int nonogram_width, int nonogram_height, bool is_colored);
+    void saveToBitmap(int nonogram_width, int nonogram_height, bool is_colored, const std::vector<int>& margins);
     // calculate image mask to help mask out background cells
     // if `is_inverted` is false, background colored cells are `1`
     Image getMask(int thresh = 240, bool is_inverted = false);

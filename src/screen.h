@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "image.h"
 
 // represents the device screen controller
@@ -14,7 +16,7 @@ public:
 public:
     // capture an answer picture from the screen
     // width and height correspond to the actual nonogram sizes
-    void captureAnswer(int width, int height, bool is_colored);
+    void captureAnswer(int width, int height, bool is_colored, const std::vector<int>& margins);
 
     // paints the answer on the nonogram grid
     // width and height correspond to the actual nonogram sizes

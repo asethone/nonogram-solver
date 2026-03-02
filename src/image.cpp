@@ -21,9 +21,13 @@ Image Image::fromBitmap(bool is_colored) {
     return Image(std::move(image));
 }
 
-void Image::saveToBitmap(int nonogram_width, int nonogram_height, bool is_colored) {
+void Image::saveToBitmap(int nonogram_width, int nonogram_height, bool is_colored, const std::vector<int>& margins) {
     const int width = mat_.cols;
     const int height = mat_.rows;
+    // update nonogram sizes according to margins
+    nonogram_width -= margins[0] + margins[2];
+    nonogram_height -= margins[1] + margins[3];
+    // calculate cell sizes in pixels
     const double cell_width = (double)width / nonogram_width;
     const double cell_height = (double)height / nonogram_height;
 
@@ -57,6 +61,9 @@ void Image::saveToBitmap(int nonogram_width, int nonogram_height, bool is_colore
         }
         y += cell_height;
     }
+
+    // write white margins directly into bitmap so we don't need to handle them during painting
+    cv::copyMakeBorder(bitmap, bitmap, margins[1], margins[3], margins[0], margins[2], cv::BORDER_CONSTANT, cv::Vec3b(255, 255, 255));
 
     // for debugging
     // cv::imwrite("mask.png", mask);
